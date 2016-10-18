@@ -3,9 +3,10 @@
 	  "version": "0.0.0",
 	  "private": true,
 	  "scripts": {
-    		"start": "node ./bin/www"
+		    "start": "node ./bin/www"
   	},
   	"dependencies": {
-				"connect-mongo": ">= 0.1.7"
+		"connect-mongo": ">= 0.1.7",
+    	"socket.io": "~1.5.0"
   	}
 }
