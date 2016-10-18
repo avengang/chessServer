@@ -4,7 +4,7 @@ var server = http.createServer(function(request, response){
     response.writeHead(200,{"Content-Type":"text/html"});
     response.write("WebSocket Start~~~~~~~~~~~~");
     response.end("");
-}).listen(8000);
+}).listen(80);
 
 var socket= io.listen(server); 
 
@@ -15,6 +15,7 @@ socket.on("connection", function(client){
     console.log("Received message from client!",event); 
     client.emit("emitMessage", { hello: "messgge received, wish you happy"+new Date().toString() });
     db();
+    client.emit("emitMessage", { hello: "messgge received1, wish you happy"+new Date().toString() });
   }); 
   client.on("disconnect",function(){ 
    // clearInterval(interval); 
