@@ -11,19 +11,31 @@ io.on('connection', function(socket){
 	
 	//监听新用户加入
 	socket.on('login', function(obj){
-		//将新加入用户的唯一标识当作socket的名称，后面退出的时候会用到
-		socket.name = obj.userid;
+		var MongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://192.168.1.19:27017/d5459f61-def0-4735-8906-ad263a055ee2';    
 		
-		//检查在线列表，如果不在里面就加入
-		if(!onlineUsers.hasOwnProperty(obj.userid)) {
-			onlineUsers[obj.userid] = obj.username;
-			//在线人数+1
-			onlineCount++;
+		var insertData = function(db, callback) {  
+		    //连接到表  
+		    var collection = db.collection('tb2');
+		    //插入数据
+		    var data = [{"name":'wilson001',"age":21},{"name":'wilson002',"age":22}];
+		    collection.insert(data, function(err, result) { 
+		        if(err)
+		        {
+		            console.log('Error:'+ err);
+		            return;
+		        }     
+		        callback(result);
+		    });
 		}
 		
-		//向所有客户端广播用户加入
-		io.emit('login', {onlineUsers:onlineUsers, onlineCount:onlineCount, user:obj});
-		console.log(obj.username+'加入了聊天室');
+		MongoClient.connect(DB_CONN_STR, function(err, db) {
+		    console.log("连接成功！");
+		    insertData(db, function(result) {
+		        console.log(result);
+		        db.close();
+		    });
+		});
 	});
 	
 	//监听用户退出
@@ -57,28 +69,3 @@ http.listen(80, function(){
 	console.log('listening on *:80');
 });
 
-var MongoClient = require('mongodb').MongoClient;
-var DB_CONN_STR = 'mongodb://192.168.1.19:27017/d5459f61-def0-4735-8906-ad263a055ee2';    
-
-var insertData = function(db, callback) {  
-    //连接到表  
-    var collection = db.collection('tb2');
-    //插入数据
-    var data = [{"name":'wilson001',"age":21},{"name":'wilson002',"age":22}];
-    collection.insert(data, function(err, result) { 
-        if(err)
-        {
-            console.log('Error:'+ err);
-            return;
-        }     
-        callback(result);
-    });
-}
-
-MongoClient.connect(DB_CONN_STR, function(err, db) {
-    console.log("连接成功！");
-    insertData(db, function(result) {
-        console.log(result);
-        db.close();
-    });
-});
