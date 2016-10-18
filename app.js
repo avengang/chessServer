@@ -1,5 +1,12 @@
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var http = require("http");
+var io= require("socket.io"); 
+var server = http.createServer(function(request, response){
+    response.writeHead(200,{"Content-Type":"text/html"});
+    response.write("socket.io Start~~~~~~~~~~~~");
+    response.end("");
+}).listen(80);
+
+var io= io.listen(server); 
 
 //在线用户
 var onlineUsers = {};
