@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('heyServer:server');
+var debug = require('debug')('chessServer:server');
 var http = require('http');
 
 /**
