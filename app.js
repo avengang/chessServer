@@ -12,8 +12,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 global.dbHandel = require('./database/dbHandel');  // 全局handel获取数据库Model
-//global.db = mongoose.connect("mongodb://127.0.0.1:27017/nodedb");
-mongoose.connect('mongodb://3dae7e4e-255e-4282-bc2f-d49b0b5d078f:106d883d-a83c@192.168.1.19:27017/nodedb');
+global.db = mongoose.connect("mongodb://127.0.0.1:27017/nodedb");
+//mongoose.connect('mongodb://3dae7e4e-255e-4282-bc2f-d49b0b5d078f:106d883d-a83c@192.168.1.19:27017/nodedb');
 var app = express();
 
 app.use(session({ 
