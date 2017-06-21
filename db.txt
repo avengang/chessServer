@@ -1,0 +1,11 @@
+create table IF NOT EXISTS users (
+ name varchar(15),
+ score int,
+ sex tinyint(1),
+ pic varchar(50),
+ addr varchar(100),
+ winNum int,
+ lostNum int,
+ tieNum int,
+ rank varchar(10)
+);
