@@ -23,7 +23,7 @@ function init(chessInfo) {
         levelPool.splice(levelPool.indexOf(level), 1);
     }
 }
-function gaming(chessInfo, index, user, i, j, fn) {
+function gaming(chessInfo, index, user, i, j, fn, successFn) {
 
     var chess = chessInfo[index];
     var mountainArr = [0, 1, 2, 3, 4, 5, 8, 9];//能上山的列表
@@ -35,14 +35,8 @@ function gaming(chessInfo, index, user, i, j, fn) {
     if(index != undefined) {
 
         if(chess.mask) {
-
-            if(user.selectChess!=null) {
-                chessInfo[index].selected = true;
-                fn && fn(true);
-            } else {
-                fn && fn();
-                chessInfo[index].mask = false;
-            }
+            chessInfo[index].mask = false;
+            fn && fn();
         } else if(chess.isBlack==user.isBlack) {
 
             if(user.selectChess==null) {
@@ -80,24 +74,24 @@ function gaming(chessInfo, index, user, i, j, fn) {
                 				if(+chessInfo[i].level > maxWhite) maxWhite = +chessInfo[i].level;
                 			}
                 		}
-console.log(maxBlack, maxWhite);
-                		if(maxBlack > maxWhite) console.log("黑方胜");
-            			if(maxWhite > maxBlack) console.log("白方胜");
+
+                		if(maxBlack > maxWhite) successFn(true);
+            			if(maxWhite > maxBlack) successFn(false);
                 	}
 
-                    if(((selectChess.level!=7&&chess.level!=0) && (selectChess.level>chess.level))
+                    if((!(selectChess.level==0&&chess.level==7) && (selectChess.level>chess.level))
                         || (selectChess.level==0&&chess.level==7)) {//等级更高吃掉或者鼠吃象
 
                         if(i==selectChess.i && Math.abs(selectChess.j-j)==1) {
                             chessInfo[user.selectChess].j = j;
                             chessInfo.splice(index, 1);
-                            isSuccess();
                             fn && fn();
+                            isSuccess();
                         } else if(j==selectChess.j && Math.abs(selectChess.i-i)==1) {
                             chessInfo[user.selectChess].i = i;
                             chessInfo.splice(index, 1);
-                            isSuccess();
                             fn && fn();
+                            isSuccess();
                         } else {
                             fn && fn(true);
                         }
@@ -108,8 +102,8 @@ console.log(maxBlack, maxWhite);
                             var maxIndex = Math.max(user.selectChess, index);
                             chessInfo.splice(maxIndex, 1);
                             chessInfo.splice(maxIndex==user.selectChess?index:user.selectChess, 1);
-                            isSuccess();
                             fn && fn();
+                            isSuccess();
                         } else {
                             fn && fn(true);
                         }

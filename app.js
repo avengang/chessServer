@@ -1,8 +1,11 @@
 var _commonFns = require("./js/common.js");
+var db = require("./js/db.js");
 var app = require('http').createServer(handler),
     io = require('socket.io').listen(app);
 
 app.listen(8080);
+db.connect();
+db.select();
 Array.prototype.remove = function (dx) {
 
     if (isNaN(dx) || dx > this.length) {
@@ -194,6 +197,15 @@ console.log(data);
                 socket.user.myTurn = !socket.user.myTurn;
                 socket.gameSocket.user.myTurn = !socket.gameSocket.user.myTurn;
             }
+        }, function(isBlackSuccess) {
+        	
+        	if(socket.user.isBlack == isBlackSuccess) {
+        		socket.emit("win");
+        		socket.gameSocket.emit("fail");
+        	} else {
+        		socket.emit("fail");
+        		socket.gameSocket.emit("win");
+        	}
         });
     });
     socket.on('disconnect', function (data) {
