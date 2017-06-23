@@ -65,18 +65,33 @@ function gaming(chessInfo, index, user, i, j, fn, successFn) {
                 		
                 		var maxWhite = -1;
                 		var maxBlack = -1;
+                		var blackHasMouse = false;
+                		var whiteHasMouse = false;
                 		
                 		for(var i=0,ii=chessInfo.length;i<ii;i++) {
                 			
                 			if(chessInfo[i].isBlack) {
                 				if(+chessInfo[i].level > maxBlack) maxBlack = +chessInfo[i].level;
+                				if(+chessInfo[i].level == 0) blackHasMouse = true;
                 			} else {
                 				if(+chessInfo[i].level > maxWhite) maxWhite = +chessInfo[i].level;
+                				if(+chessInfo[i].level == 0) whiteHasMouse = true;
                 			}
                 		}
 
-                		if(maxBlack > maxWhite) successFn(true);
-            			if(maxWhite > maxBlack) successFn(false);
+                		if(maxBlack > maxWhite) {
+                			
+                			if(!(maxBlack==7 && whiteHasMouse)) {
+                				successFn(true);
+                			}
+                		}
+                		
+            			if(maxWhite > maxBlack) {
+            				
+            				if(!(maxWhite==7 && blackHasMouse)) {
+                				successFn(false);
+                			}
+            			}
                 	}
 
                     if((!(selectChess.level==0&&chess.level==7) && (selectChess.level>chess.level))

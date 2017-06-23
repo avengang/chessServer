@@ -1,5 +1,13 @@
+CREATE DATABASE IF NOT EXISTS zhan_chess CHARACTER SET UTF8;
+
+USE zhan_chess;
+
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS `users`;
 create table IF NOT EXISTS users (
- name varchar(15),
+ id int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+ name varchar(15) unique,
  score int,
  sex tinyint(1),
  pic varchar(50),
@@ -8,4 +16,9 @@ create table IF NOT EXISTS users (
  lostNum int,
  tieNum int,
  rank varchar(10)
-);
+ primary key('id')
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into users value ("0", "阿呆", 0, 0, null, null, 0, 0, 0, 0);
+insert into users value ("1", "詹先森", 0, 0, null, null, 0, 0, 0, 0);
+insert into users value ("2", "张三", 0, 0, null, null, 0, 0, 0, 0);
+insert into users value ("3", "李四", 0, 0, null, null, 0, 0, 0, 0);
